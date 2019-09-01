@@ -20,9 +20,9 @@ public class LoginInterceptor implements HandlerInterceptor {
     private static final Logger logger = LoggerFactory.getLogger(LoginInterceptor.class);
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        logger.info("登录拦截，跳转登录页");
+        logger.info("登录拦截，跳转登录页，{}",request.getRequestURI());
         // 防止循环跳转
-        if (request.getRequestURI().contains("login.html")){
+        if (request.getRequestURI().contains("login.html") || request.getRequestURI().contains("lotteryDrawSingle.html") ){
             return true;
         }
         String contextPath = request.getContextPath();

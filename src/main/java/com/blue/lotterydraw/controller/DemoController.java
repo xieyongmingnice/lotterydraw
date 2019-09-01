@@ -25,6 +25,6 @@ public class DemoController {
         GuidanceInfo guidanceInfo = new GuidanceInfo();
         guidanceInfo.setGuidanceId("03ec8588-36ce-4b5d-857b-612e7a75f202");
         Wrapper<GuidanceInfo> wrapper = new QueryWrapper<>(guidanceInfo);
-        return guidanceInfoService.getOne(wrapper).getGuidanceAliasName();
+        return guidanceInfoService.getOne(wrapper) == null ? "没找到" : guidanceInfoService.getOne(wrapper).getGuidanceAliasName();
     }
 }

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>抽奖-单人版</title>
+    <link rel="stylesheet" href="../layui/css/layui.css" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+<body style="margin-top: 100px;margin-left: 300px">
+    <p>请输入参与抽奖的用户名称</p><br>
+    <div id = "userDiv">
+        <div class="userInnerDiv">
+            <input type="text" class="username" class="layui-input" style="line-height: 30px">
+            <i class="layui-icon layui-icon-add-1 addbtn" style="font-size: 30px; color: #2f8b12" onclick="addUser()"></i>
+            <i class="layui-icon layui-icon-delete delbtn" style="font-size: 30px; color: #ff1e36;" ></i>
+            <br>
+        </div>
+    </div>
+    <br>
+    <button class="layui-btn" onclick="draw()">开始抽奖</button>
+
+</body>
+<script type="text/javascript">
+
+    function addUser() {
+        var add = "<div class=\"userInnerDiv\">\n" +
+            "            <input type=\"text\" class=\"username\" class=\"layui-input\" style=\"line-height: 30px\">\n" +
+            "            <i class=\"layui-icon layui-icon-add-1 addbtn\" style=\"font-size: 30px; color: #2f8b12\" onclick=\"addUser()\"></i>\n" +
+            "            <i class=\"layui-icon layui-icon-delete delbtn\" style=\"font-size: 30px; color: #ff1e36;\" ></i>\n" +
+            "            <br>\n" +
+            "        </div>";
+        var v = $("#userDiv");
+        v.append(add);
+    }
+
+    $(function () {
+        $("#userDiv").on("click",".delbtn",function () {
+            var innerDivArray = $(".userInnerDiv");
+            var len = innerDivArray.length;
+            if (len < 2) {
+                alert("NO!!!!!!!!!!!");
+            } else {
+                console.log("delete");
+                var v = $(this).parent();
+                v.remove();
+            }
+        });
+    });
+
+    // 抽奖
+    function draw() {
+        var usernameArray = [] ;
+
+        $(".username").each(function(){
+            var content = $(this).val();
+            usernameArray.push(content);
+        });
+        var jsonUsername = JSON.stringify(usernameArray);
+        console.log(usernameArray);
+        console.log(jsonUsername);
+
+        $.ajax({
+            url:"http://19m35402q5.51mypc.cn/draw/single",    //请求的url地址
+            dataType:"json",   //返回格式为json
+            async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+            data:{"usernameList" : jsonUsername},    //参数值
+            type:"POST",   //请求方式
+            beforeSend:function(){
+                //请求前的处理
+            },
+            success:function(req){
+                var msg = req.message;
+                console.log(msg);
+                alert(msg);
+            },
+            complete:function(){
+                //请求完成的处理
+            },
+            error:function(){
+                //请求出错处理
+            }
+        });
+    }
+</script>
+</html>
